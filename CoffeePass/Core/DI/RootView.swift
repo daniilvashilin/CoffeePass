@@ -1,17 +1,25 @@
 import SwiftUI
 
 struct RootView: View {
-    @Environment(\.container) private var container
+    @Environment(AppContainer.self) private var container
     var body: some View {
-        switch container.appState.flow {
-        case .loading: Text("Loading...")
-        case .entryChoice: Text("Entry Choice")
-        case .onBoarding: Text("On Boarding")
-        case .main: Text("Main")
+        Group {
+            switch container.appState.flow {
+            case .loading:
+                EmptyView()
+                
+            case .entryChoice:
+                AuthView()
+                
+            case .main:
+                EmptyView()
+                
+            case .onBoarding:
+                EmptyView()
+            }
+        }
+        .task {
+            await container.appState.bootstrap(auth: container.authService)
         }
     }
-}
-
-#Preview {
-    RootView()
 }
