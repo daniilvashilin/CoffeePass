@@ -8,16 +8,18 @@ final class AppState {
     
     func bootstrap(auth: AuthServicing) async {
         let session = await auth.restoreSession()
+        applySession(session)
+    }
+    
+    func applySession(_ session: SessionState) {
         self.session = session
-        
         switch session {
-        case .signedOut:
-            flow = .entryChoice
-        case .asGuest, .appleUser:
-            flow = .main
+        case .signedOut: flow = .entryChoice
+        case .asGuest, .appleUser: flow = .main
         }
     }
 }
+
 
 enum AppFlow {
     case loading

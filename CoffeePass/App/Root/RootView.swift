@@ -12,7 +12,7 @@ struct RootView: View {
                 AuthView()
                 
             case .main:
-                EmptyView()
+                MainTabsView()
                 
             case .onBoarding:
                 EmptyView()

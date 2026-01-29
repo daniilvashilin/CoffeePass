@@ -8,7 +8,7 @@ struct MainTabsView: View {
 
         TabView(selection: $appState.selectedTab) {
             Tab("Home", systemImage: "house", value: MainTabFlow.home) {
-                EmptyView()
+                HomeView()
             }
 
             Tab("Menu", systemImage: "cup.and.saucer", value: MainTabFlow.menu) {

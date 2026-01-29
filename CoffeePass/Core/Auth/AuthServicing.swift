@@ -1,4 +1,5 @@
 protocol AuthServicing {
-    func loginGuest() //test
     func restoreSession() async -> SessionState
+    func signInAsGuest() async throws -> SessionState
+    func signOut() throws 
 }
