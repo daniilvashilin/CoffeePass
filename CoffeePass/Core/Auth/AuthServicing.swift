@@ -1,5 +1,10 @@
+import AuthenticationServices
+
 protocol AuthServicing {
-    func restoreSession() async -> SessionState
     func signInAsGuest() async throws -> SessionState
-    func signOut() throws 
+    func restoreSession() async -> SessionState
+    func signOut() throws
+
+    func signInWithApple(credential: ASAuthorizationAppleIDCredential, rawNonce: String) async throws -> SessionState
+    func linkAppleToCurrentUser(credential: ASAuthorizationAppleIDCredential, rawNonce: String) async throws -> SessionState
 }

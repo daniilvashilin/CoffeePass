@@ -9,7 +9,7 @@ struct RootView: View {
                 EmptyView()
                 
             case .entryChoice:
-                AuthView()
+                AuthView(container: container)
                 
             case .main:
                 MainTabsView()
