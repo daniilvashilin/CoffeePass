@@ -4,7 +4,10 @@ import FirebaseAuth
 
 @Observable
 final class AuthService: AuthServicing {
-
+    
+    var currentUserUID: String? {
+        Auth.auth().currentUser?.uid
+    }
     func signInAsGuest() async throws -> SessionState {
         let result = try await Auth.auth().signInAnonymously()
         return .asGuest(userId: result.user.uid)
@@ -45,5 +48,25 @@ final class AuthService: AuthServicing {
             idToken: idTokenString,
             rawNonce: rawNonce
         )
+    }
+}
+
+extension SessionState {
+    var canLinkAppleAccount: Bool {
+        if case .asGuest(_) = self { return true }
+        return false
+    }
+    var isAppleConnected: Bool {
+        if case .appleUser = self { return true }
+        return false
+    }
+}
+extension SessionState {
+    var userId: String? {
+        switch self {
+        case .asGuest(let id): return id
+        case .appleUser(let id): return id
+        default: return nil
+        }
     }
 }

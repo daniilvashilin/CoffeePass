@@ -2,21 +2,24 @@ import SwiftUI
 import AuthenticationServices
 
 struct AuthView: View {
-    @Environment(AppContainer.self) private var container
+    private let container: AppContainer
     @State private var vm: AuthViewModel
     
     init(container: AppContainer) {
-        _vm = State(initialValue: AuthViewModel(authService: container.authService, appState: container.appState, nonceProvider: container.nonce))
-    }
+           self.container = container
+           _vm = State(initialValue: AuthViewModel(
+            authService: container.authService, firestore: container.firestoreService, appState: container.appState, nonceProvider: container.nonce
+           ))
+       }
     var body: some View {
         ZStack {
-            Color.backGround.edgesIgnoringSafeArea(.all)
+            Color.backGround.ignoresSafeArea()
             VStack {
                 
                 SignInWithAppleButton(.continue) { request in
                     vm.prepareAppleRequest(request)
                 } onCompletion: { result in
-                    Task { await vm.handleAppleCompletion(result)}
+                    Task { await vm.handleAppleCompletion(result, mode: .signIn)}
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
