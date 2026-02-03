@@ -3,7 +3,7 @@ import SwiftUI
 struct HomeView: View {
     private let container: AppContainer
     @State private var vm: HomeViewModel
-    
+
     init(container: AppContainer) {
         self.container = container
         _vm = State(initialValue: HomeViewModel(
@@ -11,20 +11,25 @@ struct HomeView: View {
             firestore: container.firestoreService
         ))
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.backGround.ignoresSafeArea()
-                VStack(spacing: 16) {
-                    HomeHeaderView(destination: UserSettingsView(container: container))
-                    
-                    Text("⭐️ \(vm.points)")
-                        .foregroundStyle(.white)
-                    
-                    Spacer()
+
+                ScrollView(.vertical) {
+                    VStack(spacing: 16) {
+                        HomeHeaderView(destination: UserSettingsView(container: container))
+                        LoyaltyCardSection(points: vm.points, rankTitle: vm.tierTitle)
+                    }
+                    .padding(.horizontal, 4)
+                    .padding(.top, TopSafeAreaPolicy.shouldIgnoreTop ? 6 : 0)
                 }
-                .padding()
+                .safeAreaInset(edge: .bottom) {
+                    Color.clear.frame(height: 24)
+                }
+                .scrollIndicators(.never)
+                .ignoresSafeArea(.container, edges: TopSafeAreaPolicy.shouldIgnoreTop ? .top : [])
             }
         }
         .onAppear { vm.start() }

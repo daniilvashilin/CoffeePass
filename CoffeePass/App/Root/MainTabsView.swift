@@ -14,7 +14,7 @@ struct MainTabsView: View {
                 HomeView(container: container)
             }
 
-            Tab("Menu", systemImage: "cup.and.saucer", value: MainTabFlow.menu) {
+            Tab("Menu", systemImage: "square.split.2x2.fill", value: MainTabFlow.menu) {
                 MenuView()
             }
 

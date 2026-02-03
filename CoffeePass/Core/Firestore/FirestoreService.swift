@@ -36,8 +36,6 @@ final class FirestoreService: FirestoreServicing {
             var user = UserModel.empty(uid: uid)
             if let email { user.email = email }
             if let displayName { user.displayName = displayName }
-
-            // @ServerTimestamp сам поставит serverTimestamp при записи
             try uRef.setData(from: user, merge: true)
         }
 
